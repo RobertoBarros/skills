@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Pick"
+  short_description: "Research active open-source tools"
+  default_prompt: "Use $tool-pick to find the best open-source tool for my task."
