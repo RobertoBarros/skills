@@ -5,7 +5,7 @@ description: Research and compare libraries, frameworks, gems, packages, CLIs, a
 
 # Tool Pick
 
-Find trustworthy open-source options for a technical need. Start with curated "awesome" lists on GitHub, then validate every candidate in its upstream repository. Deliver a short, useful, verifiable selection—not a generic list of names.
+Find trustworthy open-source options for a technical need. Start with curated "awesome" lists on GitHub, then validate every candidate in its upstream repository. Deliver a short, useful, verifiable selection -not a generic list of names.
 
 ## Workflow
 
@@ -30,9 +30,9 @@ Find trustworthy open-source options for a technical need. Start with curated "a
 
 Respond in the user's language unless they request otherwise. Start with a short primary recommendation and its main caveats. Then present 3 to 6 options in order of fit:
 
-| Option | Why it fits | Health signals | Caveats |
-| --- | --- | --- | --- |
-| [Name](https://github.com/owner/repo) | Relevant capability, integration, and differentiators | Verified license, activity, community, adoption, or stars | Practical limitations |
+| Option                                | Why it fits                                           | Caveats               | Health signals                                            |
+| ------------------------------------- | ----------------------------------------------------- | --------------------- | --------------------------------------------------------- |
+| [Name](https://github.com/owner/repo) | Relevant capability, integration, and differentiators | Practical limitations | Verified license, activity, community, adoption, or stars |
 
 Always include a direct link to each tool's original repository. Also cite the "awesome" list when it contributed to discovery. Finish with a clear selection recommendation, conditional on the user's constraints when appropriate.
 
