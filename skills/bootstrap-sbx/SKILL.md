@@ -28,9 +28,10 @@ Prepare the project idempotently. Prioritize `mise`, keep tools and configuratio
 
 ### 2. Prepare system packages
 
-1. Update package manager indexes only.
-2. Install only compilers, headers, clients, libraries, and services required by the detected dependencies.
-3. Make installation non-interactive and check whether each package already exists before installing it.
+1. Prefer installation through `mise` or the tool's official documented method instead of relying on `apt` or another system package manager.
+2. Use the system package manager only for required system libraries, headers, clients, services, or tools without a suitable `mise` or official installation method.
+3. Update package manager indexes only when system packages are required.
+4. Make installation non-interactive and check whether each package already exists before installing it.
 
 Do not run `apt upgrade`, `dnf upgrade`, a general `yum update`, or an equivalent command.
 
@@ -61,6 +62,8 @@ Use the package manager proven by manifests and lockfiles:
 
 Do not replace package managers or regenerate existing lockfiles.
 
+For web applications, also install Chromium and Playwright using the project's existing JavaScript package manager and conventions. Keep the browser cache outside the workspace when configuration allows it, and verify that Playwright can launch Chromium.
+
 ### 6. Prepare services
 
 1. Install only services proven necessary, such as PostgreSQL or Redis.
@@ -71,14 +74,16 @@ Do not replace package managers or regenerate existing lockfiles.
 ### 7. Verify and finish
 
 1. Validate runtime and package manager versions, dependency resolution, service health, `rtk --version`, `rtk gain`, and `hunk --version`.
-2. Run the project's documented primary verification commands, prioritizing quick, non-destructive checks. Do not start a persistent server unless necessary.
+2. Run the project's documented test suite and primary verification commands, including end-to-end tests for web applications. Do not start a persistent server unless necessary.
 3. Repeat idempotency-sensitive checks to confirm that a second run would not perform unnecessary installations or changes.
 4. Compare the final `git status --short` with the baseline. Stop and request authorization if any unexpected version-controlled change appears.
-5. Summarize the runtimes, dependencies, services, and tools prepared. Report inferences, failed checks, and domains blocked by the network.
+5. Summarize the runtimes, dependencies, services, and tools prepared. Explicitly report every failing or skipped test, along with inferences, failed checks, and domains blocked by the network.
 
 ## Acceptance criteria
 
 - Project dependencies are installed and basic commands work.
+- The documented test suite runs; any failing or skipped tests are clearly reported.
+- Web applications have working Chromium and Playwright installations for end-to-end tests.
 - Required services are active and healthy, without creating databases or running migrations.
 - RTK and Hunk are available on `PATH` and validated.
 - Repeated execution is safe and performs no unnecessary work.
