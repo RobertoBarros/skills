@@ -6,6 +6,7 @@ Cada pasta em `skills/` representa uma skill independente. O arquivo `SKILL.md` 
 
 ## Skills disponíveis
 
+- [`bootstrap-sbx`](skills/bootstrap-sbx/): prepares projects in Docker Sandboxes with runtimes, dependencies, services, RTK, and Hunk without polluting the workspace.
 - [`tool-pick`](skills/tool-pick/): pesquisa e compara bibliotecas, frameworks, pacotes, CLIs e outras ferramentas de software open source.
 
 As skills seguem o formato `SKILL.md` para permanecerem portáveis entre diferentes harnesses.

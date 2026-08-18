@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bootstrap SBX"
+  short_description: "Prepare projects in Docker Sandboxes"
+  default_prompt: "Use $bootstrap-sbx to prepare this project in Docker Sandbox without polluting the workspace."
