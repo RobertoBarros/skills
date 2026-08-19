@@ -7,6 +7,8 @@ description: Installs runtimes, dependencies, services, and tools for projects o
 
 Prepare the project idempotently. Prioritize `mise`, keep tools and configuration outside the workspace, and preserve version-controlled files.
 
+Unless the project requests a specific version, always use the `latest` version available through `mise` for every tool it manages.
+
 ## Safety rules
 
 - Work only on Linux inside Docker Sandboxes. If the environment does not match, explain why and stop.
@@ -39,7 +41,7 @@ Do not run `apt upgrade`, `dnf upgrade`, a general `yum update`, or an equivalen
 
 1. Reuse `mise` when available. Otherwise, install the official version in the user's home directory and activate it in the current session.
 2. Respect versions declared in project files, CI configuration, Dockerfiles, and lockfiles, in that order.
-3. When no version is declared, choose a stable version compatible with the manifests and dependencies. Briefly record the inference.
+3. When no version is declared, follow the global `mise` `latest` rule.
 4. Install Ruby, Node.js, Python, and other runtimes through `mise`. If a missing version must be configured, set it globally in the sandbox, never in the project.
 5. Install Node.js 18 or newer through `mise` when Node is required by the project or to install Hunk.
 
