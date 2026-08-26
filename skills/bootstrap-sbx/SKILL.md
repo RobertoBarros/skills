@@ -17,7 +17,7 @@ Unless the project requests a specific version, always use the `latest` version 
 ## Safety rules
 
 - Work only on Linux inside Docker Sandboxes. If the environment does not match, explain why and stop.
-- Do not perform a full system upgrade, run migrations or seeds, create databases, or execute destructive commands.
+- Do not run migrations or seeds, create databases, or execute destructive commands.
 - Do not create `mise.toml`, `.tool-versions`, helper scripts, or `.gitignore` entries.
 - Keep runtimes, caches, Python environments, tools, and configuration in the user's home directory. Reuse existing global `mise` configuration.
 - Preserve existing lockfiles with frozen, immutable, or equivalent modes. Allow only essential workspace artifacts, such as `node_modules` or a missing lockfile that the package manager must generate.
@@ -26,23 +26,27 @@ Unless the project requests a specific version, always use the `latest` version 
 
 ## Workflow
 
-### 1. Inspect the environment and record the baseline
+### 1. Update operating system packages
 
 1. Confirm Linux, user, home directory, shell, architecture, `sudo` access, connectivity, and package manager (`apt`, `dnf`, `yum`, `apk`, or equivalent).
-2. Record `git status --short`, relevant ignored files, and versions of available tools. Do not clean pre-existing changes.
-3. Read `README`, `AGENTS.md`, development documentation, CI configuration, Dockerfiles, Compose files, manifests, version files, and lockfiles first.
-4. Internally produce a minimal list of runtimes, system libraries, package managers, and services proven necessary by those files.
+2. Before inspecting the project or installing any development tool, refresh the package indexes and upgrade all installed operating system packages non-interactively. For Debian/Ubuntu, run the equivalent of `apt-get update` followed by `apt-get upgrade -y`; use the corresponding safe full-upgrade operation for the detected package manager.
+3. Resolve or clearly report any failed operating system upgrade before proceeding.
 
-### 2. Prepare system packages
+### 2. Inspect the project and record the baseline
 
-1. Prefer installation through `mise` or the tool's official documented method instead of relying on `apt` or another system package manager.
-2. Use the system package manager only for required system libraries, headers, clients, services, or tools without a suitable `mise` or official installation method.
-3. Update package manager indexes only when system packages are required.
-4. Make installation non-interactive and check whether each package already exists before installing it.
+1. Record `git status --short`, relevant ignored files, and versions of available tools. Do not clean pre-existing changes.
+2. Read `README`, `AGENTS.md`, development documentation, CI configuration, Dockerfiles, Compose files, manifests, version files, and lockfiles first.
+3. Internally produce a minimal list of runtimes, system libraries, package managers, and services proven necessary by those files.
 
-Do not run `apt upgrade`, `dnf upgrade`, a general `yum update`, or an equivalent command.
+### 3. Install baseline development tools and system packages
 
-### 3. Install runtimes with mise
+1. Before installing runtimes or project dependencies, use the system package manager to ensure a minimal development environment is available: C/C++ compiler, linker, `make`, libc development headers, `pkg-config`, Git, `curl`, CA certificates, archive tools, and patch utilities.
+2. Prefer the distribution's standard compilation package or group, such as `build-essential` on Debian/Ubuntu, Development Tools on Fedora/RHEL, or `build-base` on Alpine. Install only missing baseline tools.
+3. Then install required system libraries, headers, clients, and services proven necessary by the project.
+4. Prefer installation through `mise` or the tool's official documented method for standalone development tools not included in the baseline.
+5. Make installation non-interactive and check whether each package already exists before installing it.
+
+### 4. Install runtimes with mise
 
 1. Reuse `mise` when available. Otherwise, install the official version in the user's home directory and activate it in the current session.
 2. Respect versions declared in project files, CI configuration, Dockerfiles, and lockfiles, in that order.
@@ -50,7 +54,7 @@ Do not run `apt upgrade`, `dnf upgrade`, a general `yum update`, or an equivalen
 4. Install Ruby, Node.js, Python, and other runtimes through `mise`. If a missing version must be configured, set it globally in the sandbox, never in the project.
 5. Install Node.js 18 or newer through `mise` when Node is required by the project or to install Hunk.
 
-### 4. Install RTK and Hunk
+### 5. Install RTK and Hunk
 
 1. If `rtk` is missing, install it from the official `https://github.com/rtk-ai/rtk` repository using the project's current published installation method. Do not install the unrelated package with the same name from crates.io.
 2. Run `rtk init -g --codex` and validate it with `rtk --version` and `rtk gain`.
@@ -58,7 +62,7 @@ Do not run `apt upgrade`, `dnf upgrade`, a general `yum update`, or an equivalen
 4. Ensure Node.js 18+ is available and install Hunk with `npm install -g hunkdiff` only when `hunk` is missing or invalid. Validate it with `hunk --version`.
 5. Keep binaries and global configuration for these tools in the user's home directory.
 
-### 5. Install project dependencies
+### 6. Install project dependencies
 
 Use the package manager proven by manifests and lockfiles:
 
@@ -71,14 +75,14 @@ Do not replace package managers or regenerate existing lockfiles.
 
 For web applications, also install Chromium and Playwright using the project's existing JavaScript package manager and conventions. Keep the browser cache outside the workspace when configuration allows it, and verify that Playwright can launch Chromium.
 
-### 6. Prepare services
+### 7. Prepare services
 
 1. Install only services proven necessary, such as PostgreSQL or Redis.
 2. Start services through the mechanism available in the sandbox and verify their health, port, and client.
 3. Do not create users, databases, or schemas, and do not run migrations or seeds.
 4. If the project depends on an unavailable external service, report exactly what is missing.
 
-### 7. Verify and finish
+### 8. Verify and finish
 
 1. Validate runtime and package manager versions, dependency resolution, service health, `rtk --version`, `rtk gain`, and `hunk --version`.
 2. Run the project's documented test suite and primary verification commands, including end-to-end tests for web applications. Do not start a persistent server unless necessary.
@@ -88,6 +92,7 @@ For web applications, also install Chromium and Playwright using the project's e
 
 ## Acceptance criteria
 
+- Installed operating system packages are fully upgraded before project preparation begins.
 - Project dependencies are installed and basic commands work.
 - The documented test suite runs; any failing or skipped tests are clearly reported.
 - Web applications have working Chromium and Playwright installations for end-to-end tests.
