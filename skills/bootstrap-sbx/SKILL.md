@@ -1,6 +1,7 @@
 ---
 name: bootstrap-sbx
 description: Installs runtimes, dependencies, services, and tools for projects opened in Docker Sandboxes while avoiding unnecessary workspace changes. Use when preparing, configuring, or repairing a Linux/SBX development environment so an existing project can be installed, tested, and run.
+disable-model-invocation: true
 ---
 
 # Bootstrap SBX
