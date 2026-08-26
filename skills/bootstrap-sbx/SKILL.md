@@ -7,6 +7,10 @@ description: Installs runtimes, dependencies, services, and tools for projects o
 
 Prepare the project idempotently. Prioritize `mise`, keep tools and configuration outside the workspace, and preserve version-controlled files.
 
+Prefer `mise` for runtimes and standalone development tools. When a required tool is unavailable or unsuitable through `mise`, use its official installation method and install it user-globally under the user's home directory whenever possible. Use the system package manager only for required system libraries, services, drivers, clients, or tools that cannot reasonably be installed user-globally.
+
+Keep application dependencies isolated and managed by the project's package manager and lockfiles. Never install or rely on globally installed application packages to satisfy the project.
+
 Unless the project requests a specific version, always use the `latest` version available through `mise` for every tool it manages.
 
 ## Safety rules
