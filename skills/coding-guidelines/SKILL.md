@@ -87,6 +87,11 @@ in local environment configuration.
 
 ### Architecture
 
+#### Record Decisions
+
+- Use the project's `AGENTS.md` to record architecture decisions. Update it whenever a new decision is made, including adopting a gem or library.
+- Keep each record as concise as possible, preferably one line stating what was chosen and why (e.g., `Use Sidekiq for background jobs because the project already uses Redis.`).
+
 #### Model the Domain
 
 - Use domain structures and types that make illegal states and values impossible.
